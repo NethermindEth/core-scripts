@@ -71,10 +71,16 @@ def optimism:
   }
 ;
 
+def taiko:
+  {
+    "Taiko": {}
+  }
+;
+
 
 {
   "version": "1",
-  "engine": (if .config.optimism != null then optimism else ethash end),
+  "engine": (if .config.optimism != null then optimism elif .config.taiko != null then taiko else ethash end),
   "params": {
     # Tangerine Whistle
     "eip150Transition": "0x0",
@@ -125,6 +131,8 @@ def optimism:
     "eip3529Transition": .config.londonBlock|to_hex,
     "eip3541Transition": .config.londonBlock|to_hex,
     "eip3198Transition": .config.londonBlock|to_hex,
+    "eip1559BaseFeeMinValue": .config.optimism.eip1559Elasticity|to_hex,
+    "eip1559BaseFeeMinValueTransition": .config.optimism.eip1559Elasticity|to_hex,
 
     # Merge
     "MergeForkIdTransition": .config.mergeForkBlock|to_hex,
@@ -150,6 +158,8 @@ def optimism:
     "chainID": .config.chainId|to_hex,
 
     "terminalTotalDifficulty": .config.terminalTotalDifficulty|to_hex,
+
+    .config.ontakeBlock | "ontakeTransition": .config.ontakeBlock|to_hex,
   },
   "genesis": {
     "seal": {
