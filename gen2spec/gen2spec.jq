@@ -1,6 +1,6 @@
 # Taken from https://github.com/ethereum/hive and modified to support more cases for Ethereum / OP networks
 
-# Usage: cat genesis.json | jq --from-file gen2spec.jq  > chainspec.json
+# Usage: cat genesis.json | jq --from-file gen2spec.jq > chainspec.json
 
 # Removes all empty keys and values in input.
 def remove_empty:
@@ -91,8 +91,8 @@ def taiko:
     "eip161dTransition": "0x0",
     "eip155Transition": "0x0",
     "maxCodeSizeTransition": "0x0",
-    "maxCodeSize": 24576,
-    "maximumExtraDataSize": "0x400",
+    "maxCodeSize": "0x6000",
+    "maximumExtraDataSize": "0x20",
 
     # Byzantium
     "eip140Transition": .config.byzantiumBlock|to_hex,
@@ -131,8 +131,6 @@ def taiko:
     "eip3529Transition": .config.londonBlock|to_hex,
     "eip3541Transition": .config.londonBlock|to_hex,
     "eip3198Transition": .config.londonBlock|to_hex,
-    "eip1559BaseFeeMinValue": .config.optimism.eip1559Elasticity|to_hex,
-    "eip1559BaseFeeMinValueTransition": .config.optimism.eip1559Elasticity|to_hex,
 
     # Merge
     "MergeForkIdTransition": .config.mergeForkBlock|to_hex,
@@ -159,7 +157,9 @@ def taiko:
 
     "terminalTotalDifficulty": .config.terminalTotalDifficulty|to_hex,
 
-    .config.ontakeBlock | "ontakeTransition": .config.ontakeBlock|to_hex,
+    "eip1559BaseFeeMinValueTransition": .config.ontakeBlock|to_hex,
+    "eip1559BaseFeeMinValue": (if .config.ontakeBlock then "0x86ff51" else null end),
+    "ontakeTransition": .config.ontakeBlock|to_hex,
   },
   "genesis": {
     "seal": {

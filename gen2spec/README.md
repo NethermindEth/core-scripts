@@ -6,7 +6,7 @@ Transforms Geth genesis into Nethermind chainspec.
 Usage:
 
 ```sh
-cat genesis.json | jq --from-file gen2spec.jq  > chainspec.json
+cat genesis.json | jq --from-file gen2spec.jq > chainspec.json
 ```
 
 Based on https://github.com/ethereum/hive
