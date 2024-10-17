@@ -1,2 +1,2 @@
-gen2spec/chainspec.json
-gen2spec/genesis.json
+gen2spec/chainspec*.json
+gen2spec/genesis*.json

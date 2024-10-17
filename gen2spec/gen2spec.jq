@@ -1,4 +1,4 @@
-# Taken from https://github.com/ethereum/hive and modified to support more cases for Ethereum / OP networks
+# Taken from https://github.com/ethereum/hive and modified to support more cases for Ethereum / OP / Taiko networks
 
 # Usage: cat genesis.json | jq --from-file gen2spec.jq > chainspec.json
 
