@@ -152,8 +152,8 @@ def taiko:
     "rip7212TransitionTimestamp": .config.pragueTime|to_hex,
 
     # Fee collector
-    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" else null end),
-    "eip1559FeeCollectorTransition": (if .config.optimism != null then "0x0" else null end),
+    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then "0x\(.config.chainId)0000000000000000000000000000010001" else null end),
+    "eip1559FeeCollectorTransition": (if .config.optimism != null or .config.taiko != null then .config.londonBlock|to_hex else null end),
 
     # Other chain parameters
     "networkID": .config.chainId|to_hex,
