@@ -172,7 +172,7 @@ def taiko:
          "mixHash": .mixHash,
       },
     },
-    "difficulty": .difficulty,
+    "difficulty": (if .config.taiko != null then "0x0" else .difficulty end),
     "author": .coinbase,
     "timestamp": .timestamp,
     "parentHash": .parentHash,
