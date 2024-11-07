@@ -159,7 +159,7 @@ def taiko:
     "networkID": .config.chainId|to_hex,
     "chainID": .config.chainId|to_hex,
 
-    "terminalTotalDifficulty": .config.terminalTotalDifficulty|to_hex,
+    "terminalTotalDifficulty": (if .config.taiko != null then "0x0" else .config.terminalTotalDifficulty|to_hex end),
 
     "eip1559BaseFeeMinValueTransition": .config.ontakeBlock|to_hex,
     "eip1559BaseFeeMinValue": (if .config.ontakeBlock then "0x86ff51" else null end),
@@ -172,7 +172,7 @@ def taiko:
          "mixHash": .mixHash,
       },
     },
-    "difficulty": (if .config.taiko != null then "0x0" else .difficulty end),
+    "difficulty": (if .config.taiko != null then "0x0" else .difficulty|to_hex end),
     "author": .coinbase,
     "timestamp": .timestamp,
     "parentHash": .parentHash,
