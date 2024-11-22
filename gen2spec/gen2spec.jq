@@ -62,7 +62,8 @@ def optimism:
           "bedrockBlockNumber": .config.londonBlock|to_hex,
           "canyonTimestamp": .config.shanghaiTime|to_hex,
           "ecotoneTimestamp": .config.cancunTime|to_hex,
-          "fjordTimestamp": .config.pragueTime|to_hex,
+          "fjordTimestamp": .config.fjordTime|to_hex,
+          "holoceneTimestamp": .config.holoceneTime|to_hex,
           "l1FeeRecipient": "0x420000000000000000000000000000000000001A",
           "l1BlockAddress": "0x4200000000000000000000000000000000000015",
           "canyonBaseFeeChangeDenominator": "250"
@@ -77,10 +78,20 @@ def taiko:
   }
 ;
 
+def clique:
+  {
+    "clique": {
+        "params": {
+          "period": .config.clique.period,
+          "epoch": .config.clique.epoch,
+        }
+    }
+  }
+;
 
 {
   "version": "1",
-  "engine": (if .config.optimism != null then optimism elif .config.taiko != null then taiko else ethash end),
+  "engine": (if .config.optimism != null then optimism elif .config.taiko != null then taiko elif .config.clique != null then clique else ethash end),
   "params": {
     # Tangerine Whistle
     "eip150Transition": "0x0",
@@ -147,9 +158,14 @@ def taiko:
     "eip1153TransitionTimestamp": .config.cancunTime|to_hex,
     "eip5656TransitionTimestamp": .config.cancunTime|to_hex,
     "eip6780TransitionTimestamp": .config.cancunTime|to_hex,
-    
+
+    # OPs Fjord
+    "rip7212TransitionTimestamp": .config.fjordTime|to_hex,
+
+    # OPs Holocene
+    "opHoloceneTransitionTimestamp": .config.holoceneTime|to_hex,
+
     #Prague
-    "rip7212TransitionTimestamp": .config.pragueTime|to_hex,
 
     # Fee collector
     "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then "0x\(.config.chainId)0000000000000000000000000000010001" else null end),
