@@ -63,6 +63,7 @@ def optimism:
           "canyonTimestamp": .config.shanghaiTime|to_hex,
           "ecotoneTimestamp": .config.cancunTime|to_hex,
           "fjordTimestamp": .config.fjordTime|to_hex,
+          "graniteTimestamp": .config.graniteTime|to_hex,
           "holoceneTimestamp": .config.holoceneTime|to_hex,
           "l1FeeRecipient": "0x420000000000000000000000000000000000001A",
           "l1BlockAddress": "0x4200000000000000000000000000000000000015",
@@ -159,10 +160,9 @@ def clique:
     "eip5656TransitionTimestamp": .config.cancunTime|to_hex,
     "eip6780TransitionTimestamp": .config.cancunTime|to_hex,
 
-    # OPs Fjord
+    # OP forks
     "rip7212TransitionTimestamp": .config.fjordTime|to_hex,
-
-    # OPs Holocene
+    "opGraniteTransitionTimestamp": .config.graniteTime|to_hex,
     "opHoloceneTransitionTimestamp": .config.holoceneTime|to_hex,
 
     #Prague
