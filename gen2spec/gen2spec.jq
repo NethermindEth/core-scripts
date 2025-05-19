@@ -76,7 +76,10 @@ def optimism:
 
 def taiko:
   {
-    "Taiko": {}
+    "Taiko": {
+      "ontakeTransition": .config.ontakeBlock|to_hex,
+      "pacayaTransition": .config.pacayaBlock|to_hex,
+    }
   }
 ;
 
