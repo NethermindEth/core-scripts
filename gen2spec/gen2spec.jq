@@ -189,7 +189,6 @@ def clique:
 
     "eip1559BaseFeeMinValueTransition": .config.ontakeBlock|to_hex,
     "eip1559BaseFeeMinValue": (if .config.ontakeBlock then "0x86ff51" else null end),
-    "ontakeTransition": .config.ontakeBlock|to_hex,
   },
   "genesis": {
     "seal": {
