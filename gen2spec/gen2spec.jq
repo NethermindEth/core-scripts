@@ -177,6 +177,20 @@ def clique:
     "eip7623TransitionTimestamp": .config.pragueTime|to_hex,
     "depositContractAddress": .config.depositContractAddress,
 
+    "blobSchedule" : (if .config.blobSchedule then ((
+      (.config as $c | ["cancun", "prague", "osaka", "amsterdam", "bpo1", "bpo2", "bpo3", "bpo4", "bpo5"]
+      | map({ timestamp: $c[. + "Time"] } + $c.blobSchedule[.]))
+    )
+    | reverse
+    | unique_by(.timestamp)
+    | map(select(length > 1))
+    ) else null end),
+
+    # Osaka
+    "eip7594TransitionTimestamp": .config.osakaTime|to_hex,
+    "eip7823TransitionTimestamp": .config.osakaTime|to_hex,
+    "eip7883TransitionTimestamp": .config.osakaTime|to_hex,
+
     # Fee collector
     "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then "0x\(.config.chainId)0000000000000000000000000000010001" else null end),
     "eip1559FeeCollectorTransition": (if .config.optimism != null or .config.taiko != null then .config.londonBlock|to_hex else null end),
