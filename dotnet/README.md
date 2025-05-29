@@ -2,8 +2,9 @@
 
 ## sln-deps.ps1
 
-List projects not added to the solution:
+Finds projects not added to a `.slnx` solution
+Provides potential fix
 
-```ps1
+```powershell
 .\sln-deps.ps1 -solutionPath D:\...\nethermind\src\Nethermind\Benchmarks.slnx -folder /Nethermind/
 ```
