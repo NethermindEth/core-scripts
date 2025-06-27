@@ -191,7 +191,11 @@ def clique:
     "eip7823TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7825TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7883TransitionTimestamp": .config.osakaTime|to_hex,
+    "eip7907TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7918TransitionTimestamp": .config.osakaTime|to_hex,
+    "eip7934TransitionTimestamp": .config.osakaTime|to_hex,
+    "eip7939TransitionTimestamp": .config.osakaTime|to_hex,
+    "eip7951TransitionTimestamp": .config.osakaTime|to_hex,
 
     # Fee collector
     "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then "0x\(.config.chainId)0000000000000000000000000000010001" else null end),
