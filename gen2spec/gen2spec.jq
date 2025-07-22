@@ -191,7 +191,6 @@ def clique:
     "eip7823TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7825TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7883TransitionTimestamp": .config.osakaTime|to_hex,
-    "eip7907TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7918TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7934TransitionTimestamp": .config.osakaTime|to_hex,
     "eip7939TransitionTimestamp": .config.osakaTime|to_hex,
