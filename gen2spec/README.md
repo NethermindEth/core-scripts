@@ -1,7 +1,9 @@
 # gen2spec.jq
 
+Based on https://github.com/ethereum/hive
+
 Transforms Geth genesis into Nethermind chainspec.<br>
-Supports Ethereum L1, clique, OP, Taiko
+Supports Ethereum L1's ethash/clique, OP, Taiko, Surge
 
 ## Usage
 
@@ -26,6 +28,3 @@ The chainspec extends Taiko's one with UseSurgeGasPriceOracle:
 ```sh
 cat genesis.json | jq ". * {difficulty: 0, config: {taiko: true, londonBlock: 0, ontakeBlock: 1, pacayaBlock: 1, useSurgeGasPriceOracle: true, shanghaiTime: 0}} | del(.config.clique)" | jq --from-file gen2spec.jq > chainspec.json
 ```
-
-
-Based on https://github.com/ethereum/hive
