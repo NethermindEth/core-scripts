@@ -79,6 +79,7 @@ def taiko:
     "Taiko": {
       "ontakeTransition": .config.ontakeBlock|to_hex,
       "pacayaTransition": .config.pacayaBlock|to_hex,
+      "useSurgeGasPriceOracle": .config.useSurgeGasPriceOracle
     }
   }
 ;
