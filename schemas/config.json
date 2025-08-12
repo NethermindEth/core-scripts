@@ -54,6 +54,16 @@
         }
       ]
     },
+    "History": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/IHistoryConfig"
+        }
+      ]
+    },
     "NoCategory": {
       "oneOf": [
         {
@@ -121,6 +131,16 @@
         },
         {
           "$ref": "#/definitions/IDbConfig"
+        }
+      ]
+    },
+    "Era": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/IEraConfig"
         }
       ]
     },
@@ -306,6 +326,9 @@
         "StaticNodesPath": {
           "type": "string"
         },
+        "TrustedNodesPath": {
+          "type": "string"
+        },
         "LogFileName": {
           "type": "string"
         },
@@ -363,9 +386,19 @@
           ],
           "format": "int64"
         },
+        "ExitOnInvalidBlock": {
+          "type": "boolean"
+        },
         "BackgroundTaskConcurrency": {
           "type": "integer",
           "format": "int32"
+        },
+        "BackgroundTaskMaxNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "InRunnerTest": {
+          "type": "boolean"
         }
       }
     },
@@ -492,22 +525,8 @@
             "string"
           ]
         },
-        "PivotNumberParsed": {
-          "type": "integer",
-          "format": "int64"
-        },
         "PivotTotalDifficultyParsed": {
           "$ref": "#/definitions/UInt256"
-        },
-        "PivotHashParsed": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/Hash256"
-            }
-          ]
         },
         "MaxAttemptsToUpdatePivot": {
           "type": "integer",
@@ -625,6 +644,17 @@
         "FastHeadersMemoryBudget": {
           "type": "integer",
           "format": "uint64"
+        },
+        "EnableSnapSyncStorageRangeSplit": {
+          "type": "boolean"
+        },
+        "ForwardSyncDownloadBufferMemoryBudget": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ForwardSyncBlockProcessingQueueMemoryBudget": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -665,47 +695,6 @@
     "ValueTupleOfUInt64AndBoolean": {
       "type": "object",
       "additionalProperties": false
-    },
-    "Hash256": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "ValueHash256": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/ValueHash256"
-            }
-          ]
-        },
-        "Bytes": {
-          "$ref": "#/definitions/SpanOfByte"
-        },
-        "IsZero": {
-          "type": "boolean"
-        }
-      }
-    },
-    "ValueHash256": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "SpanOfByte": {
-      "type": "object",
-      "x-deprecated": true,
-      "x-deprecatedMessage": "Types with embedded references are not supported in this version of your compiler.",
-      "additionalProperties": false,
-      "properties": {
-        "Length": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "IsEmpty": {
-          "type": "boolean"
-        }
-      }
     },
     "TuneType": {
       "type": "string",
@@ -794,8 +783,16 @@
           "type": "integer",
           "format": "uint64"
         },
+        "SingleBlockImprovementOfSlot": {
+          "type": "number",
+          "format": "double"
+        },
         "PreWarmStateOnBlockProcessing": {
           "type": "boolean"
+        },
+        "PreWarmStateConcurrency": {
+          "type": "integer",
+          "format": "int32"
         },
         "BlockProductionTimeoutMs": {
           "type": "integer",
@@ -805,6 +802,10 @@
           "type": "integer",
           "format": "int32"
         },
+        "BlockProductionMaxTxKilobytes": {
+          "type": "integer",
+          "format": "int64"
+        },
         "GasToken": {
           "type": [
             "null",
@@ -812,6 +813,37 @@
           ]
         }
       }
+    },
+    "IHistoryConfig": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Pruning": {
+          "$ref": "#/definitions/PruningModes"
+        },
+        "RetentionEpochs": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "PruningModes": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Disabled",
+        "Rolling",
+        "UseAncientBarriers"
+      ],
+      "enum": [
+        "Disabled",
+        "Rolling",
+        "UseAncientBarriers"
+      ]
     },
     "INoCategoryConfig": {
       "type": "object",
@@ -934,6 +966,10 @@
           "type": "integer",
           "format": "int64"
         },
+        "DirtyCacheMb": {
+          "type": "integer",
+          "format": "int64"
+        },
         "PersistenceInterval": {
           "type": "integer",
           "format": "int64"
@@ -970,9 +1006,32 @@
           "type": "number",
           "format": "double"
         },
+        "TrackPastKeys": {
+          "type": "boolean"
+        },
         "PruningBoundary": {
           "type": "integer",
           "format": "int32"
+        },
+        "DirtyNodeShardBit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "PrunePersistedNodePortion": {
+          "type": "number",
+          "format": "double"
+        },
+        "PrunePersistedNodeMinimumTarget": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "MaxUnpersistedBlockCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "MinUnpersistedBlockCount": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -1103,6 +1162,9 @@
         "CompressibilityHint": {
           "type": "number",
           "format": "double"
+        },
+        "FlushOnExit": {
+          "type": "boolean"
         },
         "BadBlocksDbRocksDbOptions": {
           "type": "string"
@@ -1311,6 +1373,80 @@
             "null",
             "string"
           ]
+        },
+        "StateDbLargeMemoryRocksDbOptions": {
+          "type": "string"
+        },
+        "StateDbArchiveModeRocksDbOptions": {
+          "type": "string"
+        },
+        "StateDbLargeMemoryWriteBufferSize": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "StateDbArchiveModeWriteBufferSize": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "L1OriginDbRocksDbOptions": {
+          "type": "string"
+        },
+        "L1OriginDbAdditionalRocksDbOptions": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "IEraConfig": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "ImportDirectory": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ExportDirectory": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "From": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "To": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TrustedAccumulatorFile": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "MaxEra1Size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "NetworkName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Concurrency": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "ImportBlocksBufferSize": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -1525,6 +1661,10 @@
           "type": "integer",
           "format": "int32"
         },
+        "JsonSerializationMaxDepth": {
+          "type": "integer",
+          "format": "int32"
+        },
         "MaxBatchResponseBodySize": {
           "type": [
             "integer",
@@ -1548,6 +1688,24 @@
           "items": {
             "type": "string"
           }
+        },
+        "WebSocketsProcessingConcurrency": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "IpcProcessingConcurrency": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "EnablePerMethodMetrics": {
+          "type": "boolean"
+        },
+        "FiltersTimeout": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "PreloadRpcModules": {
+          "type": "boolean"
         }
       }
     },
@@ -1761,11 +1919,56 @@
           "type": "integer",
           "format": "int32"
         },
-        "NewPayloadTimeout": {
+        "NewPayloadBlockProcessingTimeout": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "NewPayloadCacheSize": {
           "type": "integer",
           "format": "int32"
         },
         "SimulateBlockProduction": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Hash256": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ValueHash256": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/ValueHash256"
+            }
+          ]
+        },
+        "Bytes": {
+          "$ref": "#/definitions/SpanOfByte"
+        },
+        "IsZero": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ValueHash256": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "SpanOfByte": {
+      "type": "object",
+      "x-deprecated": true,
+      "x-deprecatedMessage": "Types with embedded references are not supported in this version of your compiler.",
+      "additionalProperties": false,
+      "properties": {
+        "Length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "IsEmpty": {
           "type": "boolean"
         }
       }
@@ -1854,6 +2057,12 @@
             "null",
             "string"
           ]
+        },
+        "EnableDetailedMetric": {
+          "type": "boolean"
+        },
+        "InitializeStaticLabels": {
+          "type": "boolean"
         }
       }
     },
@@ -1871,10 +2080,6 @@
           "format": "int32"
         },
         "Concurrency": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "BitsPerHop": {
           "type": "integer",
           "format": "int32"
         },
@@ -2084,6 +2289,16 @@
         },
         "DisableDiscV4DnsFeeder": {
           "type": "boolean"
+        },
+        "RlpxHostShutdownCloseTimeoutMs": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "PublicClientIdFormat": {
+          "type": "string"
+        },
+        "EnableEnrDiscovery": {
+          "type": "boolean"
         }
       }
     },
@@ -2093,6 +2308,31 @@
       "additionalProperties": false,
       "properties": {
         "SequencerUrl": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ClEnabled": {
+          "type": "boolean"
+        },
+        "ClP2PHost": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ClP2PPort": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "L1BeaconApiEndpoint": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "L1EthApiEndpoint": {
           "type": [
             "null",
             "string"
@@ -2156,16 +2396,7 @@
           "format": "int32"
         },
         "P2PProtocolVersion": {
-          "type": [
-            "null",
-            "string"
-          ]
-        },
-        "P2PAgentVersion": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "ShutterKeyFile": {
           "type": "string"
@@ -2249,12 +2480,35 @@
           ],
           "format": "int64"
         },
+        "MaxTxSize": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "MaxBlobTxSize": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "ProofsTranslationEnabled": {
+          "type": "boolean"
+        },
         "ReportMinutes": {
           "type": [
             "integer",
             "null"
           ],
           "format": "int32"
+        },
+        "AcceptTxWhenNotSynced": {
+          "type": "boolean"
+        },
+        "PersistentBroadcastEnabled": {
+          "type": "boolean"
         }
       }
     },
