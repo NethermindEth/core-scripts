@@ -199,7 +199,7 @@ def clique:
     "eip7951TransitionTimestamp": .config.osakaTime|to_hex,
 
     # Fee collector
-    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then "0x\(.config.chainId)0000000000000000000000000000010001" else null end),
+    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then .config.feeCollector // "0x\(.config.chainId)0000000000000000000000000000010001" else null end),
     "eip1559FeeCollectorTransition": (if .config.optimism != null or .config.taiko != null then .config.londonBlock|to_hex else null end),
 
     # Other chain parameters
