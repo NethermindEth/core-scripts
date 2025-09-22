@@ -83,7 +83,7 @@ def taiko:
     "Taiko": {
       "ontakeTransition": (.config.ontakeBlock // 1)|to_hex,
       "pacayaTransition": (.config.pacayaBlock // 1)|to_hex,
-      "UseSurgeGasPriceOracle": (.config.useSurgeGasPriceOracle // true),
+      "UseSurgeGasPriceOracle": .config.useSurgeGasPriceOracle,
       "taikoL2Address": "0x\(.config.chainId)0000000000000000000000000000010001"
     }
   }
@@ -100,8 +100,8 @@ def clique:
   }
 ;
 
-def safe_contracts:
-  if (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then {
+def surge_safe_contracts:
+  if (.config.useSurgeGasPriceOracle == true) then {
     "0xfd0732Dc9E303f09fCEf3a7388Ad10A83459Ec99": {
       "contractName": "CompatibilityFallbackHandler",
       "storage": {},
@@ -179,7 +179,7 @@ def safe_contracts:
 
 {
   "version": "1",
-  "engine": (if .config.optimism != null then optimism elif (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then taiko elif .config.clique != null then clique else ethash end),
+  "engine": (if .config.optimism != null then optimism elif .config.taiko != null then taiko elif .config.clique != null then clique else ethash end),
   "params": ({
     # Tangerine Whistle
     "eip150Transition": "0x0",
@@ -287,17 +287,17 @@ def safe_contracts:
     "eip7951TransitionTimestamp": .config.osakaTime|to_hex,
 
     # Fee collector
-    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then (.config.feeCollector // "0x0000000000000000000000000000000000000000") else null end),
-    "eip1559FeeCollectorTransition": (if .config.optimism != null or (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then ((.config.londonBlock // 0)|to_hex) else null end),
+    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then (.config.feeCollector // "0x\(.config.chainId)0000000000000000000000000000010001") else null end),
+    "eip1559FeeCollectorTransition": (if .config.optimism != null or .config.taiko != null then ((.config.londonBlock // 0)|to_hex) else null end),
 
     # Other chain parameters
     "networkID": .config.chainId|to_hex,
     "chainID": .config.chainId|to_hex,
 
-    "terminalTotalDifficulty": (if (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then "0x0" else .config.terminalTotalDifficulty|to_hex end),
+    "terminalTotalDifficulty": (if .config.taiko != null then "0x0" else .config.terminalTotalDifficulty|to_hex end),
 
-    "eip1559BaseFeeMinValueTransition": (if (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then (.config.ontakeBlock // 1)|to_hex else null end),
-    "eip1559BaseFeeMinValue": (if (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then "0x86ff51" else null end),
+    "eip1559BaseFeeMinValueTransition": (if .config.taiko != null then (.config.ontakeBlock // 1)|to_hex else null end),
+    "eip1559BaseFeeMinValue": (if .config.taiko != null then "0x86ff51" else null end),
   }),
   "genesis": {
     "seal": {
@@ -306,7 +306,7 @@ def safe_contracts:
          "mixHash": .mixHash,
       },
     },
-    "difficulty": (if (.config.taiko != null or .config.chainId == 763374 or .config.chainId == 763375) then "0x0" else .difficulty|to_hex end),
+    "difficulty": (if .config.taiko != null then "0x0" else .difficulty|to_hex end),
     "author": .coinbase,
     "timestamp": .timestamp,
     "parentHash": .parentHash,
@@ -317,5 +317,5 @@ def safe_contracts:
     "excessBlobGas": .excessBlobGas,
     "parentBeaconBlockRoot": .parentBeaconBlockRoot,
   },
-  "accounts": ((.alloc|with_entries(.key|=(if startswith("0x") then . else "0x" + . end))) + safe_contracts),
+  "accounts": ((.alloc|with_entries(.key|=(if startswith("0x") then . else "0x" + . end))) + surge_safe_contracts),
 }|remove_empty

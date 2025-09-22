@@ -28,4 +28,3 @@ The chainspec extends Taiko's one with UseSurgeGasPriceOracle and optional custo
 ```sh
 cat genesis.json | jq '. * {difficulty: 0, config: {taiko: true, londonBlock: 0, ontakeBlock: 1, pacayaBlock: 1, useSurgeGasPriceOracle: true, feeCollector: "0x0000000000000000000000000000000000000000", shanghaiTime: 0}} | del(.config.clique)' | jq --from-file gen2spec.jq > chainspec.json
 ```
-
