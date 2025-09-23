@@ -81,9 +81,9 @@ def optimism:
 def taiko:
   {
     "Taiko": {
-      "ontakeTransition": (.config.ontakeBlock // 1)|to_hex,
-      "pacayaTransition": (.config.pacayaBlock // 1)|to_hex,
-      "UseSurgeGasPriceOracle": .config.useSurgeGasPriceOracle,
+      "ontakeTransition": .config.ontakeBlock|to_hex,
+      "pacayaTransition": .config.pacayaBlock|to_hex,
+      "useSurgeGasPriceOracle": .config.useSurgeGasPriceOracle,
       "taikoL2Address": "0x\(.config.chainId)0000000000000000000000000000010001"
     }
   }
@@ -223,22 +223,22 @@ def surge_safe_contracts:
     "eip2930Transition": .config.berlinBlock|to_hex,
 
     # London
-    "eip1559Transition": (.config.londonBlock // 0)|to_hex,
+    "eip1559Transition": .config.londonBlock|to_hex,
     "eip1559ElasticityMultiplier": .config.optimism.eip1559Elasticity|to_hex,
     "eip1559BaseFeeMaxChangeDenominator": .config.optimism.eip1559Denominator|to_hex,
-    "eip3198Transition": (.config.londonBlock // 0)|to_hex,
-    "eip3238Transition": (.config.londonBlock // 0)|to_hex,
-    "eip3529Transition": (.config.londonBlock // 0)|to_hex,
-    "eip3541Transition": (.config.londonBlock // 0)|to_hex,
+    "eip3198Transition": .config.londonBlock|to_hex,
+    "eip3238Transition": .config.londonBlock|to_hex,
+    "eip3529Transition": .config.londonBlock|to_hex,
+    "eip3541Transition": .config.londonBlock|to_hex,
 
     # Merge
     "mergeForkIdTransition": .config.mergeForkBlock|to_hex,
 
     # Shanghai
-    "eip3651TransitionTimestamp": (.config.shanghaiTime // 0)|to_hex,
-    "eip3855TransitionTimestamp": (.config.shanghaiTime // 0)|to_hex,
-    "eip3860TransitionTimestamp": (.config.shanghaiTime // 0)|to_hex,
-    "eip4895TransitionTimestamp": (.config.shanghaiTime // 0)|to_hex,
+    "eip3651TransitionTimestamp": .config.shanghaiTime|to_hex,
+    "eip3855TransitionTimestamp": .config.shanghaiTime|to_hex,
+    "eip3860TransitionTimestamp": .config.shanghaiTime|to_hex,
+    "eip4895TransitionTimestamp": .config.shanghaiTime|to_hex,
 
     # Cancun
     "eip1153TransitionTimestamp": .config.cancunTime|to_hex,
@@ -287,8 +287,8 @@ def surge_safe_contracts:
     "eip7951TransitionTimestamp": .config.osakaTime|to_hex,
 
     # Fee collector
-    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then (.config.feeCollector // "0x\(.config.chainId)0000000000000000000000000000010001") else null end),
-    "eip1559FeeCollectorTransition": (if .config.optimism != null or .config.taiko != null then ((.config.londonBlock // 0)|to_hex) else null end),
+    "feeCollector":  (if .config.optimism != null then "0x4200000000000000000000000000000000000019" elif .config.taiko != null then .config.feeCollector // "0x\(.config.chainId)0000000000000000000000000000010001" else null end),
+    "eip1559FeeCollectorTransition": (if .config.optimism != null or .config.taiko != null then .config.londonBlock|to_hex else null end),
 
     # Other chain parameters
     "networkID": .config.chainId|to_hex,
@@ -296,8 +296,8 @@ def surge_safe_contracts:
 
     "terminalTotalDifficulty": (if .config.taiko != null then "0x0" else .config.terminalTotalDifficulty|to_hex end),
 
-    "eip1559BaseFeeMinValueTransition": (if .config.taiko != null then (.config.ontakeBlock // 1)|to_hex else null end),
-    "eip1559BaseFeeMinValue": (if .config.taiko != null then "0x86ff51" else null end),
+    "eip1559BaseFeeMinValueTransition": .config.ontakeBlock|to_hex,
+    "eip1559BaseFeeMinValue": (if .config.ontakeBlock != null then "0x86ff51" else null end),
   }),
   "genesis": {
     "seal": {
