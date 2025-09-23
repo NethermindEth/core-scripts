@@ -297,7 +297,7 @@ def surge_safe_contracts:
     "terminalTotalDifficulty": (if .config.taiko != null then "0x0" else .config.terminalTotalDifficulty|to_hex end),
 
     "eip1559BaseFeeMinValueTransition": .config.ontakeBlock|to_hex,
-    "eip1559BaseFeeMinValue": (if .config.ontakeBlock != null then "0x86ff51" else null end),
+    "eip1559BaseFeeMinValue": (if .config.ontakeBlock then "0x86ff51" else null end),
   }),
   "genesis": {
     "seal": {
