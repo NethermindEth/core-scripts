@@ -551,7 +551,8 @@
           "type": "string"
         },
         "PivotNumber": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "PivotHash": {
           "type": [
