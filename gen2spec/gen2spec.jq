@@ -101,7 +101,7 @@ def clique:
 ;
 
 def surge_safe_contracts:
-  if (.config.useSurgeGasPriceOracle == true) then {
+  if (.config.taiko == true) then {
     "0xfd0732Dc9E303f09fCEf3a7388Ad10A83459Ec99": {
       "contractName": "CompatibilityFallbackHandler",
       "storage": {},
