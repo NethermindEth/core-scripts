@@ -3040,7 +3040,7 @@
         "Bootnodes": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/NetworkNode"
           }
         },
         "UdpChannelCloseTimeout": {
@@ -3074,6 +3074,402 @@
         "ConcurrentDiscoveryJob": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "NetworkNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "IsEnode": {
+          "type": "boolean"
+        },
+        "IsEnr": {
+          "type": "boolean"
+        },
+        "Enode": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Enode"
+            }
+          ]
+        },
+        "Enr": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/NodeRecord"
+            }
+          ]
+        },
+        "NodeId": {
+          "$ref": "#/definitions/PublicKey"
+        },
+        "Host": {
+          "type": "string"
+        },
+        "HostIp": {
+          "$ref": "#/definitions/IPAddress"
+        },
+        "Port": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DiscoveryPort": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Reputation": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Enode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "PublicKey": {
+          "$ref": "#/definitions/PublicKey"
+        },
+        "Address": {
+          "$ref": "#/definitions/Address"
+        },
+        "HostIp": {
+          "$ref": "#/definitions/IPAddress"
+        },
+        "Port": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DiscoveryPort": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Info": {
+          "type": "string"
+        }
+      }
+    },
+    "PublicKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Address": {
+          "$ref": "#/definitions/Address"
+        },
+        "Hash": {
+          "$ref": "#/definitions/Hash256"
+        },
+        "Bytes": {
+          "type": "string",
+          "format": "byte"
+        },
+        "PrefixedBytes": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Bytes": {
+          "$ref": "#/definitions/ReadOnlySpanOfByte"
+        },
+        "ToAccountPath": {
+          "$ref": "#/definitions/ValueHash2562"
+        }
+      }
+    },
+    "ReadOnlySpanOfByte": {
+      "type": "object",
+      "x-deprecated": true,
+      "x-deprecatedMessage": "Types with embedded references are not supported in this version of your compiler.",
+      "additionalProperties": false,
+      "properties": {
+        "Length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "IsEmpty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ValueHash2562": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "IPAddress": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "PrivateAddress": {
+          "type": "integer"
+        },
+        "PrivateIPv4Address": {
+          "type": "integer"
+        },
+        "AddressFamily": {
+          "$ref": "#/definitions/AddressFamily"
+        },
+        "ScopeId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "IsIPv6Multicast": {
+          "type": "boolean"
+        },
+        "IsIPv6LinkLocal": {
+          "type": "boolean"
+        },
+        "IsIPv6SiteLocal": {
+          "type": "boolean"
+        },
+        "IsIPv6Teredo": {
+          "type": "boolean"
+        },
+        "IsIPv6UniqueLocal": {
+          "type": "boolean"
+        },
+        "IsIPv4MappedToIPv6": {
+          "type": "boolean"
+        },
+        "Address": {
+          "type": "integer",
+          "format": "int64",
+          "x-deprecated": true,
+          "x-deprecatedMessage": "IPAddress.Address is address family dependent and has been deprecated. Use IPAddress.Equals to perform comparisons instead."
+        }
+      }
+    },
+    "AddressFamily": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unspecified",
+        "Unix",
+        "InterNetwork",
+        "ImpLink",
+        "Pup",
+        "Chaos",
+        "NS",
+        "Ipx",
+        "Iso",
+        "Osi",
+        "Ecma",
+        "DataKit",
+        "Ccitt",
+        "Sna",
+        "DecNet",
+        "DataLink",
+        "Lat",
+        "HyperChannel",
+        "AppleTalk",
+        "NetBios",
+        "VoiceView",
+        "FireFox",
+        "Banyan",
+        "Atm",
+        "InterNetworkV6",
+        "Cluster",
+        "Ieee12844",
+        "Irda",
+        "NetworkDesigners",
+        "Max",
+        "Packet",
+        "ControllerAreaNetwork",
+        "Unknown"
+      ],
+      "enum": [
+        "Unspecified",
+        "Unix",
+        "InterNetwork",
+        "ImpLink",
+        "Pup",
+        "Chaos",
+        "NS",
+        "Ipx",
+        "Iso",
+        "Osi",
+        "Ecma",
+        "DataKit",
+        "Ccitt",
+        "Sna",
+        "DecNet",
+        "DataLink",
+        "Lat",
+        "HyperChannel",
+        "AppleTalk",
+        "NetBios",
+        "VoiceView",
+        "FireFox",
+        "Banyan",
+        "Atm",
+        "InterNetworkV6",
+        "Cluster",
+        "Ieee12844",
+        "Irda",
+        "NetworkDesigners",
+        "Max",
+        "Packet",
+        "ControllerAreaNetwork",
+        "Unknown"
+      ]
+    },
+    "NodeRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "OriginalRlp": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "byte"
+        },
+        "EnrSequence": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "ContentHash": {
+          "$ref": "#/definitions/Hash256"
+        },
+        "Signature": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Signature"
+            }
+          ]
+        },
+        "Snap": {
+          "type": "boolean"
+        },
+        "DiscoveryIp": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IPAddress"
+            }
+          ]
+        },
+        "DiscoveryPort": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "TcpIp": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IPAddress"
+            }
+          ]
+        },
+        "TcpPort": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        }
+      }
+    },
+    "Signature": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MemoryManagerOfByte"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Memory": {
+              "$ref": "#/definitions/MemoryOfByte"
+            },
+            "V": {
+              "type": "integer",
+              "format": "uint64"
+            },
+            "ChainId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64"
+            },
+            "RecoveryId": {
+              "type": "integer",
+              "format": "byte"
+            },
+            "R": {
+              "$ref": "#/definitions/MemoryOfByte"
+            },
+            "S": {
+              "$ref": "#/definitions/MemoryOfByte"
+            },
+            "BytesWithRecovery": {
+              "type": "string",
+              "format": "byte"
+            }
+          }
+        }
+      ]
+    },
+    "MemoryOfByte": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "IsEmpty": {
+          "type": "boolean"
+        },
+        "Span": {
+          "$ref": "#/definitions/SpanOfByte"
+        }
+      }
+    },
+    "SpanOfByte": {
+      "type": "object",
+      "x-deprecated": true,
+      "x-deprecatedMessage": "Types with embedded references are not supported in this version of your compiler.",
+      "additionalProperties": false,
+      "properties": {
+        "Length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "IsEmpty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MemoryManagerOfByte": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Memory": {
+          "$ref": "#/definitions/MemoryOfByte"
         }
       }
     },
@@ -3188,7 +3584,7 @@
         "Bootnodes": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/NetworkNode"
           }
         },
         "EnableUPnP": {
