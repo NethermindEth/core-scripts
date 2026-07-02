@@ -3038,17 +3038,10 @@
           "x-deprecated": true
         },
         "Bootnodes": {
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ]
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "UdpChannelCloseTimeout": {
           "type": "integer",
@@ -3193,17 +3186,10 @@
           "type": "integer"
         },
         "Bootnodes": {
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ]
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "EnableUPnP": {
           "type": "boolean"
