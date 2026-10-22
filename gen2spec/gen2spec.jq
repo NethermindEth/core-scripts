@@ -84,6 +84,7 @@ def taiko:
       "ontakeTransition": .config.ontakeBlock|to_hex,
       "pacayaTransition": .config.pacayaBlock|to_hex,
       "useSurgeGasPriceOracle": .config.useSurgeGasPriceOracle,
+      "anchorV4WithSignalSlotsEnabled": (if .config.useSurgeGasPriceOracle == true then true else null end),
       "taikoL2Address": "0x\(.config.chainId)0000000000000000000000000000010001"
     }
   }
